@@ -980,6 +980,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Amplieu les parts d'eina d'edició",
   "settings.general.row.editToolPartsExpanded.description":
     "Mostra les parts de l'eina d'edició, escriptura i pedaç ampliades de manera predeterminada a la línia de temps",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Nou disseny",
   "settings.general.row.newInterface.badge": "Nou",
   "settings.general.row.newInterface.description":

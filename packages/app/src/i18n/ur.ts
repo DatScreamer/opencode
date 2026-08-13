@@ -979,6 +979,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "ترمیمی ٹول کے حصے پھیلائیں",
   "settings.general.row.editToolPartsExpanded.description":
     "ٹائم لائن میں ترمیم، تحریر اور پیچ ٹول کے حصے بطور طے شدہ پھیلے ہوئے دکھائیں۔",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "نیا لے آؤٹ",
   "settings.general.row.newInterface.badge": "نیا",
   "settings.general.row.newInterface.description":

@@ -241,6 +241,7 @@ export function MessageTimeline(props: {
   onResumeScroll: () => void
   setScrollRef: (el: HTMLDivElement | undefined) => void
   onScheduleScrollState: (el: HTMLDivElement) => void
+  onCancelScrollRestore: () => void
   onAutoScrollHandleScroll: () => void
   onMarkScrollGesture: (target?: EventTarget | null) => void
   hasScrollGesture: () => boolean
@@ -248,6 +249,7 @@ export function MessageTimeline(props: {
   onHistoryScroll: () => void
   onAutoScrollInteraction: (event: MouseEvent) => void
   shouldAnchorBottom: () => boolean
+  initialScrollTop: () => number | undefined
   centered: boolean
   setContentRef: (el: HTMLDivElement) => void
   userMessages: UserMessage[]
@@ -419,7 +421,7 @@ export function MessageTimeline(props: {
     },
     getScrollElement: () => listRoot() ?? null,
     observeElementOffset: observeElementOffsetReconnectAware,
-    initialOffset: () => (props.shouldAnchorBottom() ? Number.MAX_SAFE_INTEGER : 0),
+    initialOffset: () => (props.shouldAnchorBottom() ? Number.MAX_SAFE_INTEGER : (props.initialScrollTop() ?? 0)),
     initialMeasurementsCache: initialMeasurements,
     estimateSize: () => timelineFallbackItemSize,
     scrollToFn: (offset, options, instance) => {
@@ -573,6 +575,7 @@ export function MessageTimeline(props: {
   }
 
   const handleListWheel = (event: WheelEvent & { currentTarget: HTMLDivElement }) => {
+    props.onCancelScrollRestore()
     if (!prependLoading) clearPrependAnchor()
     const root = event.currentTarget
     const delta = normalizeWheelDelta({
@@ -585,6 +588,7 @@ export function MessageTimeline(props: {
   }
 
   const handleListTouchStart = (event: TouchEvent) => {
+    props.onCancelScrollRestore()
     if (!prependLoading) clearPrependAnchor()
     touchGesture = event.touches[0]?.clientY
   }
@@ -611,6 +615,7 @@ export function MessageTimeline(props: {
   }
 
   const handleListPointerDown = (event: PointerEvent & { currentTarget: HTMLDivElement }) => {
+    props.onCancelScrollRestore()
     if (!prependLoading) clearPrependAnchor()
     props.onMarkScrollGesture(event.target)
   }
@@ -623,6 +628,7 @@ export function MessageTimeline(props: {
   const handleListKeyDown = (event: KeyboardEvent & { currentTarget: HTMLDivElement }) => {
     const key = scrollKey(event)
     if (!key) return
+    props.onCancelScrollRestore()
     if (!isScrollKeyTarget(event.target, key)) return
     if (scrollKeyOwner(event.currentTarget, event.target, key) !== event.currentTarget) return
     if (!prependLoading) clearPrependAnchor()

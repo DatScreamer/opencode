@@ -47,6 +47,7 @@ import { DirectoryDataProvider } from "@/pages/directory-layout"
 import { useServerSync } from "@/context/server-sync"
 import { useLanguage } from "@/context/language"
 import { useLayout } from "@/context/layout"
+import type { SessionScroll } from "@/context/layout-scroll"
 import { ModelsProvider } from "@/context/models"
 import { useNotification } from "@/context/notification"
 import { PromptProvider, usePrompt } from "@/context/prompt"
@@ -1500,6 +1501,15 @@ export default function Page() {
     working: () => true,
     overflowAnchor: "none",
   })
+  const timelineScroll = () => (settings.general.saveTabScrollPosition() ? view().scroll("timeline") : undefined)
+  const hasTimelineScroll = createMemo(() => layout.ready() && !!timelineScroll())
+  let timelineScrollSession = ""
+  let timelineRestoreGeneration = 0
+  const timelineScrollTop = () => {
+    const y = timelineScroll()?.y
+    if (y === Number.MAX_SAFE_INTEGER) return
+    return y
+  }
   createEffect(
     on(
       () => params.id,
@@ -1540,7 +1550,40 @@ export default function Page() {
       if (!target) return
 
       updateScrollState(target)
+      persistTimelineScroll(target)
     })
+  }
+
+  const persistTimelineScroll = (el: HTMLDivElement) => {
+    if (!layout.ready() || timelineScrollSession !== sessionKey()) return
+    if (!settings.general.saveTabScrollPosition()) return
+    const max = el.scrollHeight - el.clientHeight
+    const box = el.getBoundingClientRect()
+    const anchor = [...el.querySelectorAll<HTMLElement>("[data-timeline-key]")]
+      .map((element) => ({
+        element,
+        message: element.querySelector<HTMLElement>("[data-message-id]"),
+        rect: element.getBoundingClientRect(),
+      }))
+      .filter((item) => item.rect.bottom > box.top && item.rect.top < box.bottom)
+      .sort((a, b) => a.rect.top - b.rect.top)[0]
+    view().setScroll("timeline", {
+      x: max,
+      y: max <= 1 || max - el.scrollTop <= 2 ? Number.MAX_SAFE_INTEGER : el.scrollTop,
+      anchor:
+        max > 1 && max - el.scrollTop > 2 && anchor?.message?.dataset.messageId && anchor.element.dataset.timelineKey
+          ? {
+              id: anchor.message.dataset.messageId,
+              key: anchor.element.dataset.timelineKey,
+              offset: anchor.rect.top - box.top,
+            }
+          : undefined,
+    })
+  }
+
+  const cancelTimelineScrollRestore = () => {
+    timelineRestoreGeneration += 1
+    timelineScrollSession = sessionKey()
   }
 
   const resumeScroll = () => {
@@ -1963,6 +2006,78 @@ export default function Page() {
     },
   )
 
+  const restoreTimelineScroll = (saved: SessionScroll) => {
+    const id = params.id
+    const owner = sessionOwnership.capture()
+    const key = sessionKey()
+    const generation = ++timelineRestoreGeneration
+    if (!id) return
+
+    const current = () => owner.current() && timelineRestoreGeneration === generation
+
+    const apply = () =>
+      owner.run(() => {
+        if (!scroller || !current()) return
+        autoScroll.pause()
+        const max = scroller.scrollHeight - scroller.clientHeight
+        const target = saved.anchor?.key
+          ? scroller.querySelector<HTMLElement>(`[data-timeline-key="${CSS.escape(saved.anchor.key)}"]`)
+          : saved.anchor
+            ? scroller.querySelector<HTMLElement>(`[data-message-id="${CSS.escape(saved.anchor.id)}"]`)
+            : undefined
+        if (saved.anchor && !target) {
+          revealMessage(saved.anchor.id)
+          return false
+        }
+        const top = target
+          ? scroller.scrollTop + target.getBoundingClientRect().top - scroller.getBoundingClientRect().top - saved.anchor!.offset
+          : max < saved.y + 100 && !historyMore() && saved.x > 0
+            ? (saved.y / saved.x) * max
+            : saved.y
+        const stable = Math.abs(scroller.scrollTop - top) < 1
+        scroller.scrollTop = top
+        scheduleScrollState(scroller)
+        return stable
+      })
+    apply()
+
+    const load = async () => {
+      try {
+        while (current()) {
+          const found = !saved.anchor || visibleUserMessages().some((message) => message.id === saved.anchor?.id)
+          const tall = !!scroller && scroller.scrollHeight - scroller.clientHeight >= saved.y + 100
+          if ((found && tall) || !historyMore()) break
+          const before = timeline.messages().length
+          await sync().session.history.loadMore(id)
+          if (!current() || timeline.messages().length <= before) break
+          await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+          apply()
+        }
+      } catch (error) {
+        if (current()) {
+          timelineScrollSession = key
+          console.error("[session] failed to restore timeline scroll", error)
+        }
+        return
+      }
+      apply()
+      let frames = 0
+      let stable = 0
+      const settle = () => {
+        if (!current()) return
+        stable = apply() ? stable + 1 : 0
+        frames += 1
+        if (stable >= 10 || frames >= 180) {
+          timelineScrollSession = key
+          return
+        }
+        requestAnimationFrame(settle)
+      }
+      requestAnimationFrame(settle)
+    }
+    void load()
+  }
+
   const { clearMessageHash, scrollToMessage } = useSessionHashScroll({
     sessionKey,
     sessionID: () => params.id,
@@ -1985,6 +2100,18 @@ export default function Page() {
     scroller: () => scroller,
     anchor,
     revealMessage: (id) => revealMessage(id),
+    scrollReady: layout.ready,
+    hasSavedScroll: hasTimelineScroll,
+    restoreScroll: () => {
+      const saved = timelineScroll()
+      const el = scroller
+      if (!saved || saved.y === Number.MAX_SAFE_INTEGER || !el) return false
+      restoreTimelineScroll(saved)
+      return true
+    },
+    onApplyScroll: () => {
+      timelineScrollSession = sessionKey()
+    },
     scheduleScrollState,
     consumePendingMessage: layout.pendingMessage.consume,
   })
@@ -2089,6 +2216,7 @@ export default function Page() {
                   onResumeScroll={resumeScroll}
                   setScrollRef={setScrollRef}
                   onScheduleScrollState={scheduleScrollState}
+                  onCancelScrollRestore={cancelTimelineScrollRestore}
                   onAutoScrollHandleScroll={autoScroll.handleScroll}
                   onMarkScrollGesture={markScrollGesture}
                   hasScrollGesture={hasScrollGesture}
@@ -2096,8 +2224,13 @@ export default function Page() {
                   onHistoryScroll={onHistoryScroll}
                   onAutoScrollInteraction={autoScroll.handleInteraction}
                   shouldAnchorBottom={() =>
-                    !location.hash && !store.messageId && !ui.pendingMessage && !autoScroll.userScrolled()
+                    !location.hash &&
+                    !store.messageId &&
+                    !ui.pendingMessage &&
+                    !autoScroll.userScrolled() &&
+                    timelineScrollTop() === undefined
                   }
+                  initialScrollTop={timelineScrollTop}
                   centered={centered()}
                   setContentRef={(el) => {
                     content = el

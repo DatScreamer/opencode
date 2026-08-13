@@ -967,6 +967,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "بخش‌های ابزار ویرایش را گسترش دهید",
   "settings.general.row.editToolPartsExpanded.description":
     "بخش‌های ابزار ویرایش، نوشتن و وصله را که به‌طور پیش‌فرض در جدول زمانی گسترش یافته‌اند، نمایش دهید",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "چیدمان جدید",
   "settings.general.row.newInterface.badge": "جدید",
   "settings.general.row.newInterface.description":

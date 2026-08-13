@@ -870,6 +870,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Laajenna muokkaustyökalun osat",
   "settings.general.row.editToolPartsExpanded.description":
     "Näytä muokkaus-, kirjoitus- ja paikkaustyökalun osat oletusarvoisesti laajennettuina aikajanalla",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Uusi asettelu",
   "settings.general.row.newInterface.badge": "Uusi",
   "settings.general.row.newInterface.description":

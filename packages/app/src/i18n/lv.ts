@@ -975,6 +975,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Izvērst rediģēšanas rīka daļas",
   "settings.general.row.editToolPartsExpanded.description":
     "Pēc noklusējuma rādīt rediģēšanas, rakstīšanas un labošanas rīka daļas izvērstas laika joslā",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Jauns izkārtojums",
   "settings.general.row.newInterface.badge": "Jauns",
   "settings.general.row.newInterface.description":

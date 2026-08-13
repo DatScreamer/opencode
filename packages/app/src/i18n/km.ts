@@ -965,6 +965,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "ពង្រីកផ្នែកឧបករណ៍កែសម្រួល",
   "settings.general.row.editToolPartsExpanded.description":
     "បង្ហាញការកែសម្រួល សរសេរ និងផ្នែកឧបករណ៍បំណះដែលបានពង្រីកតាមលំនាំដើមនៅក្នុងបន្ទាត់ពេលវេលា",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "ប្លង់ថ្មី។",
   "settings.general.row.newInterface.badge": "ថ្មី។",
   "settings.general.row.newInterface.description": "ប្រើផ្ទាំងថ្មី និងប្លង់ផ្ទះ។ ប្តូររវាងប្លង់សម្រាប់រយៈពេលកំណត់។",

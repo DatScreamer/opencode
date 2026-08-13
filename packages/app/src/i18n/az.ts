@@ -981,6 +981,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Redaktə alət hissələrini genişlət",
   "settings.general.row.editToolPartsExpanded.description":
     "Zaman xəttində redaktə, yazma və patch alət hissələrini standart olaraq genişlədilmiş göstər",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Yeni tərtibat",
   "settings.general.row.newInterface.badge": "Yeni",
   "settings.general.row.newInterface.description":

@@ -966,6 +966,10 @@ export const dict: Record<string, string> = {
   "settings.general.row.editToolPartsExpanded.title": "সম্পাদনা টুল অংশ প্রসারিত করুন",
   "settings.general.row.editToolPartsExpanded.description":
     "টাইমলাইনে ডিফল্টরূপে প্রসারিত সম্পাদনা, লিখুন এবং প্যাচ টুল অংশগুলি দেখান৷",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "নতুন লেআউট",
   "settings.general.row.newInterface.badge": "নতুন",
   "settings.general.row.newInterface.description":

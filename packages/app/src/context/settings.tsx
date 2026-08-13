@@ -33,6 +33,7 @@ export interface Settings {
     shellToolPartsExpanded: boolean
     editToolPartsExpanded: boolean
     showCustomAgents: boolean
+    saveTabScrollPosition: boolean
     mobileTitlebarPosition: "top" | "bottom"
     newLayoutDesigns?: boolean
     layoutTransitionEligible?: boolean
@@ -194,6 +195,7 @@ const defaultSettings: Settings = {
     shellToolPartsExpanded: false,
     editToolPartsExpanded: false,
     showCustomAgents: false,
+    saveTabScrollPosition: true,
     mobileTitlebarPosition: "top",
   },
   appearance: {
@@ -420,6 +422,13 @@ export const { use: useSettings, provider: SettingsProvider } = createSimpleCont
         showCustomAgents,
         setShowCustomAgents(value: boolean) {
           setStore("general", "showCustomAgents", value)
+        },
+        saveTabScrollPosition: withFallback(
+          () => store.general?.saveTabScrollPosition,
+          defaultSettings.general.saveTabScrollPosition,
+        ),
+        setSaveTabScrollPosition(value: boolean) {
+          setStore("general", "saveTabScrollPosition", value)
         },
         mobileTitlebarPosition: withFallback(
           () => store.general?.mobileTitlebarPosition,

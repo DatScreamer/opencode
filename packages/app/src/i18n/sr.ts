@@ -973,6 +973,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Проширите делове алата за уређивање",
   "settings.general.row.editToolPartsExpanded.description":
     "Прикажите делове алата за уређивање, писање и закрпе проширене подразумевано на временској линији",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Нови изглед",
   "settings.general.row.newInterface.badge": "Ново",
   "settings.general.row.newInterface.description":

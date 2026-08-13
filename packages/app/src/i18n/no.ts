@@ -798,6 +798,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Utvid edit-verktøydeler",
   "settings.general.row.editToolPartsExpanded.description":
     "Vis edit-, write- og patch-verktøydeler utvidet som standard i tidslinjen",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.wayland.title": "Bruk Wayland direkte",
   "settings.general.row.wayland.description": "Deaktiver X11-reserveløsningen på Wayland. Krever omstart.",
   "settings.general.row.wayland.tooltip":

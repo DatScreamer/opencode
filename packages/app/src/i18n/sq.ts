@@ -976,6 +976,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Zgjero pjesët e veglave të redaktimit",
   "settings.general.row.editToolPartsExpanded.description":
     "Shfaq pjesët e veglave të modifikimit, shkrimit dhe korrigjimit të zgjeruara si parazgjedhje në afatin kohor",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Paraqitje e re",
   "settings.general.row.newInterface.badge": "E re",
   "settings.general.row.newInterface.description":

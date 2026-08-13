@@ -878,6 +878,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "edit ツールパーツを展開",
   "settings.general.row.editToolPartsExpanded.description":
     "タイムラインで edit、write、patch ツールパーツをデフォルトで展開して表示します",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "新しいレイアウト",
   "settings.general.row.newInterface.badge": "新機能",
   "settings.general.row.newInterface.description":

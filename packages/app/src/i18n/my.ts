@@ -985,6 +985,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "တည်းဖြတ်ကိရိယာအစိတ်အပိုင်းများကို ချဲ့ထွင်ပါ။",
   "settings.general.row.editToolPartsExpanded.description":
     "အချိန်ဇယားတွင် ပုံသေဖြင့် ချဲ့ထွင်ထားသော တည်းဖြတ်ခြင်း၊ ရေးသားခြင်းနှင့် ဖာထေးခြင်း ကိရိယာအစိတ်အပိုင်းများကို ပြသပါ။",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "အပြင်အဆင်အသစ်",
   "settings.general.row.newInterface.badge": "အသစ်",
   "settings.general.row.newInterface.description":

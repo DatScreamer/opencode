@@ -974,6 +974,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Razširite urejanje delov orodja",
   "settings.general.row.editToolPartsExpanded.description":
     "Prikaži privzeto razširjene dele orodja za urejanje, pisanje in popravljanje na časovnici",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Nova postavitev",
   "settings.general.row.newInterface.badge": "Novo",
   "settings.general.row.newInterface.description":

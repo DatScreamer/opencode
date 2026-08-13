@@ -382,6 +382,18 @@ export const SettingsGeneral: Component = () => {
             />
           </div>
         </SettingsRow>
+
+        <SettingsRow
+          title={language.t("settings.general.row.saveTabScrollPosition.title")}
+          description={language.t("settings.general.row.saveTabScrollPosition.description")}
+        >
+          <div data-action="settings-save-tab-scroll-position">
+            <Switch
+              checked={settings.general.saveTabScrollPosition()}
+              onChange={(checked) => settings.general.setSaveTabScrollPosition(checked)}
+            />
+          </div>
+        </SettingsRow>
       </SettingsList>
     </div>
   )

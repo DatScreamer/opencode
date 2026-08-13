@@ -985,6 +985,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "އެޑިޓް ޓޫލްގެ ބައިތައް ފުޅާކުރުން",
   "settings.general.row.editToolPartsExpanded.description":
     "ޓައިމްލައިންގައި ޑިފޯލްޓްކޮށް ފުޅާކޮށްފައިވާ އެޑިޓް، ރައިޓް، އަދި ޕެޗް ޓޫލް ބައިތައް ދައްކާށެވެ",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "އާ ލޭއައުޓެއް",
   "settings.general.row.newInterface.badge": "އާ",
   "settings.general.row.newInterface.description":

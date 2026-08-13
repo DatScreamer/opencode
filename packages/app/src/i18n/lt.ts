@@ -984,6 +984,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Išplėskite redagavimo įrankio dalis",
   "settings.general.row.editToolPartsExpanded.description":
     "Rodyti pagal numatytuosius nustatymus laiko juostoje išplėstas redagavimo, rašymo ir pataisymo įrankio dalis",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Naujas išdėstymas",
   "settings.general.row.newInterface.badge": "Nauja",
   "settings.general.row.newInterface.description":

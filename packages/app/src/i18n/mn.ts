@@ -979,6 +979,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Засварлах хэрэгслийн хэсгүүдийг өргөжүүлэх",
   "settings.general.row.editToolPartsExpanded.description":
     "Он цагийн хэлхээс дээр анхдагчаар өргөтгөсөн засварлах, бичих, засварлах хэрэгслийн хэсгүүдийг харуул",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Шинэ зохион байгуулалт",
   "settings.general.row.newInterface.badge": "Шинэ",
   "settings.general.row.newInterface.description":

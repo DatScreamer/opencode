@@ -616,6 +616,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "edit 도구 항목 펼치기",
   "settings.general.row.editToolPartsExpanded.description":
     "타임라인에서 기본적으로 edit, write, patch 도구 항목을 펼친 상태로 표시합니다",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.wayland.title": "네이티브 Wayland 사용",
   "settings.general.row.wayland.description": "Wayland에서 X11 폴백을 비활성화합니다. 다시 시작해야 합니다.",
   "settings.general.row.wayland.tooltip":

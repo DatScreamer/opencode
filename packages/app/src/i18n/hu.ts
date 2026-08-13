@@ -979,6 +979,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "A Szerkesztőeszköz részei kibontása",
   "settings.general.row.editToolPartsExpanded.description":
     "Az idővonalon alapértelmezés szerint kibontott szerkesztési, írási és javítási eszközrészek megjelenítése",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Új elrendezés",
   "settings.general.row.newInterface.badge": "Új",
   "settings.general.row.newInterface.description":

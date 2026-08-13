@@ -962,6 +962,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "ຂະຫຍາຍພາກສ່ວນເຄື່ອງມືແກ້ໄຂ",
   "settings.general.row.editToolPartsExpanded.description":
     "ສະ​ແດງ​ການ​ແກ້​ໄຂ, ຂຽນ, ແລະ​ການ​ແກ້​ໄຂ​ສ່ວນ​ເຄື່ອງ​ມື​ທີ່​ຂະ​ຫຍາຍ​ໂດຍ​ຄ່າ​ເລີ່ມ​ຕົ້ນ​ໃນ​ໄລ​ຍະ​ເວ​ລາ",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "ໂຄງຮ່າງໃໝ່",
   "settings.general.row.newInterface.badge": "ໃໝ່",
   "settings.general.row.newInterface.description": "ໃຊ້ແຖບໃໝ່ ແລະຮູບແບບໜ້າຫຼັກ. ສະຫຼັບລະຫວ່າງໂຄງຮ່າງເປັນເວລາຈຳກັດ.",

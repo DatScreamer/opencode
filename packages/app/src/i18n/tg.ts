@@ -975,6 +975,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Қисмҳои таҳрири асбобро васеъ кунед",
   "settings.general.row.editToolPartsExpanded.description":
     "Намоиши қисмҳои абзори таҳрир, навиштан ва часбкунӣ, ки ба таври нобаёнӣ дар ҷадвали вақт васеъ карда шудаанд",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Тарҳбандии нав",
   "settings.general.row.newInterface.badge": "Нав",
   "settings.general.row.newInterface.description":

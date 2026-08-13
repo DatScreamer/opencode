@@ -965,6 +965,10 @@ export const dict: Record<string, string> = {
   "settings.general.row.editToolPartsExpanded.title": "සංස්කරණ මෙවලම් කොටස් පුළුල් කරන්න",
   "settings.general.row.editToolPartsExpanded.description":
     "කාලරේඛාව තුළ පෙරනිමියෙන් පුළුල් කරන ලද සංස්කරණය, ලිවීම සහ පැච් මෙවලම් කොටස් පෙන්වන්න",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "නව පිරිසැලසුම",
   "settings.general.row.newInterface.badge": "අලුත්",
   "settings.general.row.newInterface.description":

@@ -989,6 +989,10 @@ export const dict: Record<string, string> = {
   "settings.general.row.editToolPartsExpanded.title": "ཞུན་དག་ལག་ཆས་ཆ་ཤས་ཚུ་རྒྱ་བསྐྱེད་འབད།",
   "settings.general.row.editToolPartsExpanded.description":
     "དུས་ཚོད་གྲལ་ཐིག་ནང་སྔོན་སྒྲིག་གིས་རྒྱ་བསྐྱེད་འབད་ཡོད་པའི་ཞུན་དག་དང་འབྲི་ནི་ དེ་ལས་ཐབས་འཕྲུལ་གྱི་ལག་ཆས་ཆ་ཤས་ཚུ་སྟོན།",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "བཀོད་སྒྲིག་གསརཔ།",
   "settings.general.row.newInterface.badge": "གསརཔ",
   "settings.general.row.newInterface.description":

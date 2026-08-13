@@ -969,6 +969,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "გაფართოვდეს ხელსაწყოს ნაწილები",
   "settings.general.row.editToolPartsExpanded.description":
     "აჩვენეთ რედაქტირების, ჩაწერის და პაჩის ხელსაწყოს ნაწილები, რომლებიც ნაგულისხმევად გაფართოვდა ვადებში",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "ახალი განლაგება",
   "settings.general.row.newInterface.badge": "ახალი",
   "settings.general.row.newInterface.description":

@@ -965,6 +965,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Laiendage tööriista osade redigeerimist",
   "settings.general.row.editToolPartsExpanded.description":
     "Kuva ajaskaalal vaikimisi laiendatud redigeerimis-, kirjutamis- ja paigatööriistade osad",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Uus paigutus",
   "settings.general.row.newInterface.badge": "Uus",
   "settings.general.row.newInterface.description":

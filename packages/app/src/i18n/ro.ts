@@ -974,6 +974,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Extinde părțile de editare",
   "settings.general.row.editToolPartsExpanded.description":
     "Afișează implicit părțile de editare, scriere și patch extinse în cronologie",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Aspect nou",
   "settings.general.row.newInterface.badge": "Nou",
   "settings.general.row.newInterface.description":

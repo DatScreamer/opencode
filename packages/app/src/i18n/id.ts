@@ -1050,6 +1050,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Bentangkan bagian alat edit",
   "settings.general.row.editToolPartsExpanded.description":
     "Tampilkan bagian alat edit, tulis, dan patch yang dibentangkan secara bawaan di linimasa",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Tata letak baru",
   "settings.general.row.newInterface.badge": "Baru",
   "settings.general.row.newInterface.description":

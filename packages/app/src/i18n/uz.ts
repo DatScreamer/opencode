@@ -980,6 +980,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Tahrirlash vositasi qismlarini kengaytiring",
   "settings.general.row.editToolPartsExpanded.description":
     "Vaqt jadvalida sukut boʻyicha kengaytirilgan tahrirlash, yozish va tuzatish vositalari qismlarini koʻrsatish",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Yangi tartib",
   "settings.general.row.newInterface.badge": "Yangi",
   "settings.general.row.newInterface.description":

@@ -974,6 +974,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Fäll ut delar för redigeringsverktyg",
   "settings.general.row.editToolPartsExpanded.description":
     "Visa delar för redigerings-, skriv- och patchverktyg utfällda som standard i tidslinjen",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Ny layout",
   "settings.general.row.newInterface.badge": "Ny",
   "settings.general.row.newInterface.description":

@@ -982,6 +982,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Bewerkingstoolonderdelen uitvouwen",
   "settings.general.row.editToolPartsExpanded.description":
     "Toon bewerkings-, schrijf- en patchtoolonderdelen standaard uitgevouwen in de tijdlijn",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Nieuwe lay-out",
   "settings.general.row.newInterface.badge": "Nieuw",
   "settings.general.row.newInterface.description":

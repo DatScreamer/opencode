@@ -369,6 +369,18 @@ export const SettingsGeneralV2: Component<{
           </div>
         </SettingsRowV2>
 
+        <SettingsRowV2
+          title={language.t("settings.general.row.saveTabScrollPosition.title")}
+          description={language.t("settings.general.row.saveTabScrollPosition.description")}
+        >
+          <div data-action="settings-save-tab-scroll-position">
+            <Switch
+              checked={settings.general.saveTabScrollPosition()}
+              onChange={(checked) => settings.general.setSaveTabScrollPosition(checked)}
+            />
+          </div>
+        </SettingsRowV2>
+
         <Show when={mobile() && import.meta.env.VITE_OPENCODE_CHANNEL !== "prod"}>
           <SettingsRowV2
             title={language.t("settings.general.row.mobileTitlebarBottom.title")}

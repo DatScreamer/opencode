@@ -967,6 +967,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Víðka rætta tólpartar",
   "settings.general.row.editToolPartsExpanded.description":
     "Vís rætta, skriva og lappa tólpartar víðkaðir sum standard á tíðarlinjuni",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Nýggj uppseting",
   "settings.general.row.newInterface.badge": "Nýtt",
   "settings.general.row.newInterface.description":

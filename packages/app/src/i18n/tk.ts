@@ -972,6 +972,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Redaktirleme gurallarynyň böleklerini giňeltmek",
   "settings.general.row.editToolPartsExpanded.description":
     "Wagt tertibinde tertip boýunça giňeldilen redaktirlemegi, ýazmagy we patch gurallaryny görkeziň",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Täze düzüliş",
   "settings.general.row.newInterface.badge": "Täze",
   "settings.general.row.newInterface.description":

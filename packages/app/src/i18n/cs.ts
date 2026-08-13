@@ -975,6 +975,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Rozbalte části nástroje pro úpravy",
   "settings.general.row.editToolPartsExpanded.description":
     "Ve výchozím nastavení zobrazit na časové ose rozbalené části nástroje pro úpravy, zápis a opravy",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Nové rozložení",
   "settings.general.row.newInterface.badge": "Nové",
   "settings.general.row.newInterface.description":

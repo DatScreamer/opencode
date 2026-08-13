@@ -982,6 +982,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Mở rộng các phần công cụ chỉnh sửa",
   "settings.general.row.editToolPartsExpanded.description":
     "Hiển thị các phần công cụ chỉnh sửa, viết và vá lỗi được mở rộng theo mặc định trong dòng thời gian",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Bố cục mới",
   "settings.general.row.newInterface.badge": "Mới",
   "settings.general.row.newInterface.description":

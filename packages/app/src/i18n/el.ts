@@ -984,6 +984,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Ανάπτυξη τμημάτων εργαλείου επεξεργασίας",
   "settings.general.row.editToolPartsExpanded.description":
     "Εμφάνιση τμημάτων του εργαλείου επεξεργασίας, εγγραφής και ενημέρωσης κώδικα που έχουν αναπτυχθεί από προεπιλογή στη γραμμή χρόνου",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Νέα διάταξη",
   "settings.general.row.newInterface.badge": "Νέο",
   "settings.general.row.newInterface.description":

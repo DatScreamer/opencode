@@ -969,6 +969,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Kembangkan bahagian alat suntingan",
   "settings.general.row.editToolPartsExpanded.description":
     "Papar bahagian alat sunting, tulis, dan tampal dikembangkan secara lalai dalam garis masa",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Susun atur baharu",
   "settings.general.row.newInterface.badge": "Baharu",
   "settings.general.row.newInterface.description":

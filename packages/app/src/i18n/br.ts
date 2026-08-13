@@ -894,6 +894,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Expandir partes da ferramenta de edição",
   "settings.general.row.editToolPartsExpanded.description":
     "Mostrar partes das ferramentas de edição, escrita e patch expandidas por padrão na linha do tempo",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Novo layout",
   "settings.general.row.newInterface.badge": "Novo",
   "settings.general.row.newInterface.description":

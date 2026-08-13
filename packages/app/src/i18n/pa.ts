@@ -974,6 +974,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "ترمیم دے آلے دے حصیاں نو ودھاؤ",
   "settings.general.row.editToolPartsExpanded.description":
     "ٹائم لائن وچ ڈیفالٹ دے طور تے ودھائے گئے ترمیم، لکھن تے پیچ ٹول دے حصے وکھاؤ",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "نواں لے آؤٹ",
   "settings.general.row.newInterface.badge": "نواں",
   "settings.general.row.newInterface.description":

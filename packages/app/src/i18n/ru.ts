@@ -962,6 +962,10 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Разворачивать элементы инструмента edit",
   "settings.general.row.editToolPartsExpanded.description":
     "Показывать элементы инструментов edit, write и patch в ленте развернутыми по умолчанию",
+
+  "settings.general.row.saveTabScrollPosition.title": "Restore tab scroll position",
+  "settings.general.row.saveTabScrollPosition.description":
+    "Save each tab's scroll position when switching away and restore it when returning",
   "settings.general.row.newInterface.title": "Новая компоновка",
   "settings.general.row.newInterface.badge": "Новое",
   "settings.general.row.newInterface.description":
