@@ -159,6 +159,9 @@ export const dict = {
 
   "command.tab.close": "关闭标签页",
   "command.tab.reopenClosed": "重新打开已关闭的标签页",
+  "tab.split.left": "Split left",
+  "tab.split.right": "Split right",
+  "tab.split.close": "Close split pane",
 
   "command.context.addSelection": "将所选内容添加到上下文",
   "command.context.addSelection.description": "添加当前文件中选中的行",

@@ -4,6 +4,7 @@ import { createResizeObserver } from "@solid-primitives/resize-observer"
 import { createMutation } from "@tanstack/solid-query"
 import { IconButtonV2 } from "@opencode-ai/ui/v2/icon-button-v2"
 import { Icon as IconV2 } from "@opencode-ai/ui/v2/icon"
+import { MenuV2 } from "@opencode-ai/ui/v2/menu-v2"
 import { useGlobal } from "@/context/global"
 import { useLanguage } from "@/context/language"
 import { ServerConnection, serverName } from "@/context/server"
@@ -16,6 +17,8 @@ import "./titlebar-tab-nav.css"
 
 // MouseEvent.button uses 1 for the middle/wheel button.
 const MIDDLE_MOUSE_BUTTON = 1
+
+export type SplitSide = "left" | "right"
 
 export function TabNavItem(props: {
   ref?: Ref<HTMLDivElement>
@@ -32,6 +35,8 @@ export function TabNavItem(props: {
   dragging?: boolean
   pressed?: boolean
   hidden?: boolean
+  canSplit?: boolean
+  onSplit?: (side: SplitSide) => void
 }) {
   const [editing, setEditing] = createSignal(false)
   const [titleOverflowing, setTitleOverflowing] = createSignal(false)
@@ -39,6 +44,7 @@ export function TabNavItem(props: {
   let titleEl!: HTMLSpanElement
   let measureFrame: number | undefined
   const rename = createMutation(() => ({ mutationFn: props.onRename }))
+  const language = useLanguage()
 
   const closeTab = (event: MouseEvent) => {
     event.preventDefault()
@@ -294,7 +300,7 @@ export function TabNavItem(props: {
     </div>
   )
 
-  return (
+  const preview = (
     <TabPreviewPopover
       trigger={tab}
       open={popoverOpen() && !previewBlocked()}
@@ -309,6 +315,22 @@ export function TabNavItem(props: {
         serverName: serverLabel(),
       }}
     />
+  )
+
+  return (
+    <Show when={props.canSplit} fallback={preview}>
+      <MenuV2.Context>
+        <MenuV2.Context.Trigger as="div" class="flex w-full min-w-0">
+          {preview}
+        </MenuV2.Context.Trigger>
+        <MenuV2.Context.Portal>
+          <MenuV2.Context.Content>
+            <MenuV2.Item onSelect={() => props.onSplit?.("left")}>{language.t("tab.split.left")}</MenuV2.Item>
+            <MenuV2.Item onSelect={() => props.onSplit?.("right")}>{language.t("tab.split.right")}</MenuV2.Item>
+          </MenuV2.Context.Content>
+        </MenuV2.Context.Portal>
+      </MenuV2.Context>
+    </Show>
   )
 }
 

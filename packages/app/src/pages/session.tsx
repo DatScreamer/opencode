@@ -75,6 +75,7 @@ import { MessageTimeline } from "@/pages/session/timeline/message-timeline"
 import { createTimelineModel } from "@/pages/session/timeline/model"
 import { type DiffStyle, SessionReviewTab, type SessionReviewTabProps } from "@/pages/session/review-tab"
 import { useSessionLayout } from "@/pages/session/session-layout"
+import { usePaneChrome } from "@/pages/session/pane-params"
 import { restorePromptModel, syncPromptModel, syncSessionModel } from "@/pages/session/session-model-helpers"
 import {
   clampSessionPanelWidth,
@@ -92,7 +93,7 @@ import { reviewDiffDirectory, reviewDiffNeedsLoad, reviewRootDirectory } from "@
 import { TerminalPanel } from "@/pages/session/terminal-panel"
 import { TerminalPanelV2 } from "@/pages/session/terminal-panel-v2"
 import { useComposerCommands } from "@/pages/session/use-composer-commands"
-import { useSessionCommands } from "@/pages/session/use-session-commands"
+import { useSessionCommands, type SessionCommandContext } from "@/pages/session/use-session-commands"
 import { useSessionHashScroll } from "@/pages/session/use-session-hash-scroll"
 import { Identifier } from "@/utils/id"
 import { diffs as list } from "@/utils/diffs"
@@ -334,6 +335,30 @@ function SessionRouteFrame(props: ParentProps<{ padded?: boolean }>) {
   )
 }
 
+// The active pane owns the shared session chrome: titlebar portals, the command
+// palette registrations, and the document-level keyboard handler. Inactive panes
+// render their conversation but leave global chrome to the active one.
+function SessionCommands(props: SessionCommandContext) {
+  const command = useCommand()
+  const language = useLanguage()
+  useComposerCommands()
+  useSessionCommands(props)
+  command.register("session-palette", () => [
+    {
+      id: "command.palette",
+      title: language.t("command.palette"),
+      hidden: true,
+      onSelect: () => command.trigger("file.open", "palette"),
+    },
+  ])
+  return null
+}
+
+function SessionKeyHandler(props: { onKeyDown: (event: KeyboardEvent) => void }) {
+  onMount(() => makeEventListener(document, "keydown", props.onKeyDown))
+  return null
+}
+
 function SessionPanelFrame(props: ParentProps<{ newLayout: boolean; raised?: boolean }>) {
   return (
     <div
@@ -371,6 +396,7 @@ export default function Page() {
   const location = useLocation()
   const navigate = useNavigate()
   const { params, sessionKey, workspaceKey, tabs, view } = useSessionLayout()
+  const chrome = usePaneChrome()
   const reviewMode = () => view().review.mode() ?? "git"
   const reviewFile = () => view().review.file()
   const sessionOwnership = createSessionOwnership(sessionKey)
@@ -1135,23 +1161,6 @@ export default function Page() {
     if (isChildSession()) return
     inputRef?.focus()
   }
-
-  useComposerCommands()
-  useSessionCommands({
-    navigateMessageByOffset,
-    setActiveMessage,
-    focusInput,
-    review: reviewTab,
-    fileBrowser: () => newSessionDesign() && isDesktop() && !!params.id,
-  })
-  command.register("session-palette", () => [
-    {
-      id: "command.palette",
-      title: language.t("command.palette"),
-      hidden: true,
-      onSelect: () => command.trigger("file.open", "palette"),
-    },
-  ])
 
   const openReviewFile = createOpenReviewFile({
     showAllFiles,
@@ -1998,10 +2007,6 @@ export default function Page() {
     ),
   )
 
-  onMount(() => {
-    makeEventListener(document, "keydown", handleKeyDown)
-  })
-
   onCleanup(() => {
     if (reviewFrame !== undefined) cancelAnimationFrame(reviewFrame)
     if (todoFrame !== undefined) cancelAnimationFrame(todoFrame)
@@ -2248,7 +2253,17 @@ export default function Page() {
 
   return (
     <SessionRouteFrame>
-      <SessionHeader />
+      <Show when={chrome()}>
+        <SessionHeader />
+        <SessionKeyHandler onKeyDown={handleKeyDown} />
+        <SessionCommands
+          navigateMessageByOffset={navigateMessageByOffset}
+          setActiveMessage={setActiveMessage}
+          focusInput={focusInput}
+          review={reviewTab}
+          fileBrowser={() => newSessionDesign() && isDesktop() && !!params.id}
+        />
+      </Show>
       <div
         ref={panelRow}
         class="flex-1 min-h-0 flex flex-col md:flex-row"

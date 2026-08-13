@@ -12,6 +12,7 @@ import { Schema } from "effect"
 import type { ServerConnection } from "@/context/server"
 import { sessionHref } from "@/utils/session-route"
 import { useServerSync } from "@/context/server-sync"
+import { useSessionParams } from "@/pages/session/pane-params"
 
 export function DirectoryDataProvider(
   props: ParentProps<{
@@ -22,7 +23,7 @@ export function DirectoryDataProvider(
 ) {
   const location = useLocation()
   const navigate = useNavigate()
-  const params = useParams()
+  const params = useSessionParams()
   const sync = useSync()
   const serverSync = useServerSync()
   const directory = () => (typeof props.directory === "function" ? props.directory() : props.directory)

@@ -32,6 +32,8 @@ function SessionTabSlot(props: {
   onRename: (title: string) => Promise<void>
   onNavigate: (element: HTMLDivElement) => void
   onClose: () => void
+  canSplit: boolean
+  onSplit: (side: "left" | "right") => void
 }) {
   const sortable = useSortable({
     get id() {
@@ -65,6 +67,8 @@ function SessionTabSlot(props: {
         active={props.active()}
         forceTruncate={props.forceTruncate}
         dragging={sortable.isDragSource()}
+        canSplit={props.canSplit}
+        onSplit={props.onSplit}
       />
     </div>
   )
@@ -80,6 +84,8 @@ function SessionTabEntry(props: {
   onVisibleChange: (visible: boolean) => void
   onNavigate: (element: HTMLDivElement) => void
   onClose: () => void
+  canSplit: boolean
+  onSplit: (side: "left" | "right") => void
 }) {
   const tabs = useTabs()
   const language = useLanguage()
@@ -162,6 +168,8 @@ function SessionTabEntry(props: {
         onRename={rename}
         onNavigate={props.onNavigate}
         onClose={props.onClose}
+        canSplit={props.canSplit}
+        onSplit={props.onSplit}
       />
     </Show>
   )
@@ -217,6 +225,7 @@ export function TitlebarTabStrip(props: {
   onClose: (tab: Tab) => void
   onReorder: (keys: string[]) => void
   onOverflowChange: (overflowing: boolean) => void
+  onSplit: (tab: SessionTab, side: "left" | "right") => void
 }) {
   const global = useGlobal()
   const language = useLanguage()
@@ -227,6 +236,7 @@ export function TitlebarTabStrip(props: {
   const [visibility, setVisibility] = createStore<Record<string, boolean>>({})
   const visibleTabs = createMemo(() => props.tabs.filter((tab) => tab.type === "draft" || visibility[tabKey(tab)]))
   const visibleTabIds = () => visibleTabs().map(tabKey)
+  const canSplit = () => props.currentTab()?.type === "session"
 
   command.register("titlebar-tab-cycle", () => [
     {
@@ -360,6 +370,8 @@ export function TitlebarTabStrip(props: {
                         props.onNavigate(tab, element)
                       }}
                       onClose={() => props.onClose(tab)}
+                      canSplit={canSplit()}
+                      onSplit={(side) => props.onSplit(tab, side)}
                     />
                   )
                 }

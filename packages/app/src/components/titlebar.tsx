@@ -409,6 +409,11 @@ export function Titlebar(props: { update?: TitlebarUpdate; debugTools?: { visibl
                     if (index !== -1) tabsStoreActions.closeTab(index)
                   }}
                   onReorder={(keys) => tabsStoreActions.reorder(keys)}
+                  onSplit={(tab, side) => {
+                    const host = currentTab()
+                    if (host?.type !== "session") return
+                    tabsStoreActions.splitTab({ host, side, target: { server: tab.server, sessionId: tab.sessionId } })
+                  }}
                 />
                 <TooltipV2
                   placement="bottom"

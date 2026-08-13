@@ -13,6 +13,9 @@ import { createTabMemory } from "./tab-memory"
 import { nextTabAfterClose, pushClosedTab, removeClosedTabs, takeClosedTab, type ClosedTab } from "./closed-tabs"
 import { createDraftPromptSession, type PromptModel } from "./prompt-state"
 import { migrateTabs } from "./tab-migration"
+import { applySplitTab, migrateTabSplit, removePaneFromSplit, removeSplitsFor, type SplitPane, type TabSplit } from "./split-tabs"
+
+export type { SplitPane, TabSplit }
 
 export type SessionTab = {
   type: "session"
@@ -67,6 +70,10 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
     const [recent, setRecent, , recentReady] = persisted(Persist.window("tabs.recent"), createStore<RecentTab>({}))
     const [info, setInfo] = persisted(Persist.window("tabs.info"), createStore<Record<string, TabInfo>>({}))
     const [closed, setClosed, , closedReady] = persisted(Persist.window("tabs.closed"), createStore<ClosedTab[]>([]))
+    const [split, setSplit] = persisted(
+      { ...Persist.window("tabs.split"), migrate: migrateTabSplit },
+      createStore<Record<string, TabSplit>>({}),
+    )
 
     const params = useParams()
     const navigate = useNavigate()
@@ -116,6 +123,15 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
       )
     }
 
+    const removeSplit = (key: string) => {
+      if (!split[key]) return
+      setSplit(
+        produce((draft) => {
+          delete draft[key]
+        }),
+      )
+    }
+
     onCleanup(memory.dispose)
 
     createEffect(() => {
@@ -128,6 +144,7 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
             const key = tabKey(tab)
             memory.remove(key)
             removeInfo(key)
+            removeSplit(key)
           }
         }
         setStore(() => next)
@@ -136,6 +153,9 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
       const keys = new Set(next.map(tabKey))
       for (const key of Object.keys(info)) {
         if (!keys.has(key)) removeInfo(key)
+      }
+      for (const key of Object.keys(split)) {
+        if (!keys.has(key)) removeSplit(key)
       }
     })
 
@@ -173,7 +193,13 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
       }).finally(() => closing.delete(key))
       memory.remove(key)
       removeInfo(key)
+      removeSplit(key)
       if (draftID) removeDraftPersisted(draftID)
+    }
+
+    // Filters split layouts whose tabs or panes are going away.
+    const pruneSplits = (input: { keys?: string[]; server?: ServerConnection.Key; sessionIds?: string[] }) => {
+      setSplit(removeSplitsFor(split, input))
     }
 
     const actions = {
@@ -291,6 +317,7 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
         setStore((tabs) => tabs.filter((tab) => tab.server !== key))
         for (const key of removed) memory.remove(key)
         for (const key of removed) removeInfo(key)
+        pruneSplits({ keys: removed, server: key })
         if (recent.key && removed.includes(recent.key)) setRecentKey(undefined)
         for (const draftID of drafts) removeDraftPersisted(draftID)
         if (server.key === key) navigate("/")
@@ -346,6 +373,7 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
         })
         for (const key of removed) memory.remove(key)
         for (const key of removed) removeInfo(key)
+        pruneSplits({ keys: removed, server: targetServer, sessionIds: input.sessionIDs })
       },
       rememberSessionInfo(tab: SessionTab, session: Session) {
         const key = tabKey(tab)
@@ -378,8 +406,36 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
       stateValue<T>(tab: Tab, name: string) {
         return memory.get<T>(tabKey(tab), name)
       },
+      // Splits the browser tab of `host` so `target` joins it on the requested
+      // side. Splitting an already-split tab inserts next to the active pane;
+      // splitting a session that is already present just activates that pane.
+      splitTab(input: { host: SessionTab; side: "left" | "right"; target: Omit<SplitPane, "id"> }) {
+        const key = tabKey(input.host)
+        setSplit(key, applySplitTab(split[key], { key, host: input.host, side: input.side, target: input.target }))
+      },
+      setActivePane(key: string, paneId: string) {
+        if (split[key]?.activePaneId === paneId) return
+        setSplit(key, "activePaneId", paneId)
+      },
+      setPaneSizes(key: string, sizes: number[]) {
+        setSplit(key, "sizes", sizes)
+      },
+      removeSplitPane(key: string, paneId: string) {
+        const current = split[key]
+        if (!current) return
+        const next = removePaneFromSplit(current, paneId)
+        if (next === current) return
+        if (next === undefined) {
+          removeSplit(key)
+          return
+        }
+        setSplit(key, next)
+      },
+      unsplitTab(key: string) {
+        removeSplit(key)
+      },
     }
 
-    return { ...actions, store, info, ready, recentReady }
+    return { ...actions, store, info, split, ready, recentReady }
   },
 })
