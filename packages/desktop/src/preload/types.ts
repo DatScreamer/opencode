@@ -2,6 +2,7 @@ import type { DesktopMenuAction } from "@opencode-ai/app/desktop-menu"
 import type { WslServersPlatform } from "@opencode-ai/app/wsl/types"
 import type { UpdaterState } from "@opencode-ai/app/updater"
 import type { DesktopNativeBundle } from "@opencode-ai/app/i18n/desktop-native"
+import type { DesktopTheme } from "@opencode-ai/ui/theme/types"
 export type {
   WslDistroProbe,
   WslInstalledDistro,
@@ -29,6 +30,11 @@ export type UpdaterAPI = {
   install: () => Promise<void>
 }
 
+export type ThemesAPI = {
+  list: () => Promise<Record<string, DesktopTheme>>
+  subscribe: (cb: (themes: Record<string, DesktopTheme>) => void) => () => void
+}
+
 export type LinuxDisplayBackend = "wayland" | "auto"
 export type TitlebarTheme = {
   mode: "light" | "dark"
@@ -48,6 +54,7 @@ export type ElectronAPI = {
   awaitInitialization: () => Promise<ServerReadyData>
   wslServers: WslServersAPI
   updater: UpdaterAPI
+  themes: ThemesAPI
   consumeInitialDeepLinks: () => Promise<string[]>
   getDefaultServerUrl: () => Promise<string | null>
   setDefaultServerUrl: (url: string | null) => Promise<void>

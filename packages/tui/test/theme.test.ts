@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises"
 import path from "node:path"
 import type { TerminalColors } from "@opentui/core"
 import { DEFAULT_THEMES, addTheme, allThemes, hasTheme, resolveTheme, terminalMode } from "../src/theme"
-import { discoverThemes } from "../src/context/theme"
+import { discoverThemes, subscribeThemeChanges } from "../src/context/theme"
 import { tmpdir } from "./fixture/fixture"
 
 test("addTheme writes into module theme store", () => {
@@ -78,4 +78,45 @@ test("custom theme precedence follows directory order", async () => {
   await writeFile(path.join(project, "themes", "custom.json"), JSON.stringify({ source: "project" }))
 
   await expect(discoverThemes([global, project])).resolves.toEqual({ custom: { source: "project" } })
+})
+
+test("subscribeThemeChanges fires when a theme file changes", async () => {
+  await using tmp = await tmpdir()
+  const themesDir = path.join(tmp.path, "themes")
+  await mkdir(themesDir, { recursive: true })
+
+  const changed = new Promise<void>((resolve) => {
+    const unsubscribe = subscribeThemeChanges(
+      () => {
+        unsubscribe()
+        resolve()
+      },
+      [tmp.path],
+    )
+  })
+
+  await Bun.sleep(50)
+  await writeFile(path.join(themesDir, "custom.json"), JSON.stringify({ source: "custom" }))
+
+  await expect(changed).resolves.toBeUndefined()
+})
+
+test("subscribeThemeChanges fires when the themes directory is created", async () => {
+  await using tmp = await tmpdir()
+
+  const changed = new Promise<void>((resolve) => {
+    const unsubscribe = subscribeThemeChanges(
+      () => {
+        unsubscribe()
+        resolve()
+      },
+      [tmp.path],
+    )
+  })
+
+  await Bun.sleep(50)
+  await mkdir(path.join(tmp.path, "themes"), { recursive: true })
+  await writeFile(path.join(tmp.path, "themes", "custom.json"), JSON.stringify({ source: "custom" }))
+
+  await expect(changed).resolves.toBeUndefined()
 })

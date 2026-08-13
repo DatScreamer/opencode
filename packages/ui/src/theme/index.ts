@@ -33,6 +33,7 @@ export {
 
 export { resolveThemeVariant, resolveTheme, themeToCss } from "./resolve"
 export { resolveThemeVariantV2, resolveThemeV2, themeV2ToCss, generateV2Primitives } from "./v2/resolve"
+export { isDesktopTheme } from "./validate"
 export { applyTheme, loadThemeFromUrl, getActiveTheme, removeTheme, setColorScheme } from "./loader"
 export { ThemeProvider, useTheme, type ColorScheme } from "./context"
 

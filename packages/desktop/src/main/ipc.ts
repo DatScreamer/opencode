@@ -24,6 +24,7 @@ import type { UpdaterController } from "./updater-controller"
 import { createUpdaterSubscriptions } from "./updater-subscriptions"
 import { createDesktopDraftStore } from "./draft-store"
 import { nativeT } from "./native-translations"
+import { createThemeFilesWatcher } from "./theme-files"
 
 const pickerFilters = (ext?: string[]) => {
   if (!ext || ext.length === 0) return undefined
@@ -57,11 +58,21 @@ type Deps = {
 export function registerIpcHandlers(deps: Deps) {
   const drafts = createDesktopDraftStore(join(app.getPath("userData"), "drafts.sqlite"))
   const updaterSubscriptions = createUpdaterSubscriptions()
+  const themeFilesWatcher = createThemeFilesWatcher()
   app.once("will-quit", updaterSubscriptions.clear)
   app.on("before-quit", () => drafts.flush())
   app.once("will-quit", () => drafts.close())
+  app.once("will-quit", themeFilesWatcher.dispose)
   app.on("browser-window-created", (_event, win) => win.on("session-end", () => drafts.flush()))
 
+  ipcMain.handle("themes-list", () => themeFilesWatcher.list())
+  ipcMain.handle("themes-subscribe", (event) => {
+    const unsubscribe = themeFilesWatcher.subscribe((themes) => {
+      if (event.sender.isDestroyed()) return unsubscribe()
+      event.sender.send("themes-updated", themes)
+    })
+    event.sender.once("destroyed", unsubscribe)
+  })
   ipcMain.handle("kill-sidecar", () => deps.killSidecar())
   ipcMain.handle("await-initialization", () => deps.awaitInitialization())
   ipcMain.handle("consume-initial-deep-links", () => deps.consumeInitialDeepLinks())

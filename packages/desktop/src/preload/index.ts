@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer, webUtils } from "electron"
 import type { ElectronAPI, WslServersEvent } from "./types"
+import type { DesktopTheme } from "@opencode-ai/ui/theme/types"
 import type { UpdaterState } from "@opencode-ai/app/updater"
 
 const updaterCallbacks = new Set<(state: UpdaterState) => void>()
@@ -55,6 +56,15 @@ const api: ElectronAPI = {
     },
     check: () => ipcRenderer.invoke("updater-check"),
     install: () => ipcRenderer.invoke("updater-install"),
+  },
+  themes: {
+    list: () => ipcRenderer.invoke("themes-list"),
+    subscribe: (cb) => {
+      const handler = (_: unknown, themes: Record<string, DesktopTheme>) => cb(themes)
+      ipcRenderer.on("themes-updated", handler)
+      void ipcRenderer.invoke("themes-subscribe")
+      return () => ipcRenderer.removeListener("themes-updated", handler)
+    },
   },
   consumeInitialDeepLinks: () => ipcRenderer.invoke("consume-initial-deep-links"),
   getDefaultServerUrl: () => ipcRenderer.invoke("get-default-server-url"),

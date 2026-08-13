@@ -6,7 +6,8 @@ import { FileComponentProvider } from "@opencode-ai/ui/context/file"
 import { File } from "@opencode-ai/session-ui/file"
 import { Font } from "@opencode-ai/ui/font"
 import { Splash } from "@opencode-ai/ui/logo"
-import { ThemeProvider } from "@opencode-ai/ui/theme/context"
+import { ThemeProvider, useTheme } from "@opencode-ai/ui/theme/context"
+import type { DesktopTheme } from "@opencode-ai/ui/theme/types"
 import { MetaProvider } from "@solidjs/meta"
 import {
   type BaseRouterProps,
@@ -274,6 +275,10 @@ declare global {
     api?: {
       setTitlebar?: (theme: { mode: "light" | "dark"; scheme?: "system" | "light" | "dark" }) => Promise<void>
       exportDebugLogs?: () => Promise<string>
+      themes?: {
+        list: () => Promise<Record<string, DesktopTheme>>
+        subscribe: (cb: (themes: Record<string, DesktopTheme>) => void) => () => void
+      }
     }
   }
 }
@@ -390,6 +395,20 @@ function DraftProviders(props: ParentProps) {
   )
 }
 
+function CustomThemes() {
+  const theme = useTheme()
+  createEffect(() => {
+    const api = typeof window === "undefined" ? undefined : window.api?.themes
+    if (!api) return
+    const register = (themes: Record<string, DesktopTheme>) => {
+      for (const value of Object.values(themes)) theme.registerTheme(value)
+    }
+    void api.list().then(register)
+    onCleanup(api.subscribe(register))
+  })
+  return null
+}
+
 export function AppBaseProviders(
   props: ParentProps<{
     locale?: Locale
@@ -404,6 +423,7 @@ export function AppBaseProviders(
           void window.api?.setTitlebar?.({ mode, scheme })
         }}
       >
+        <CustomThemes />
         <LanguageProvider locale={props.locale} onNativeTranslations={props.onNativeTranslations}>
           <UiI18nBridge>
             <ErrorBoundary

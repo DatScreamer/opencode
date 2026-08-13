@@ -26,6 +26,7 @@ import { useKV } from "./kv"
 import { useTuiConfig } from "../config"
 import { Global } from "@opencode-ai/core/global"
 import { Glob } from "@opencode-ai/core/util/glob"
+import { existsSync, watch as watchFile, type FSWatcher } from "node:fs"
 import { readFile } from "node:fs/promises"
 import path from "node:path"
 
@@ -34,18 +35,21 @@ export type ThemeSource = Readonly<{
   subscribeRefresh?(refresh: () => void): () => void
 }>
 
+function themeDirectories() {
+  const directories = [Global.Path.config]
+  for (let current = process.cwd(); ; current = path.dirname(current)) {
+    directories.push(path.join(current, ".opencode"))
+    if (path.dirname(current) === current) break
+  }
+  return directories
+}
+
 const themeSource: ThemeSource = {
   async discover() {
-    const directories = [Global.Path.config]
-    for (let current = process.cwd(); ; current = path.dirname(current)) {
-      directories.push(path.join(current, ".opencode"))
-      if (path.dirname(current) === current) break
-    }
-    return discoverThemes(directories)
+    return discoverThemes(themeDirectories())
   },
   subscribeRefresh(refresh) {
-    process.on("SIGUSR2", refresh)
-    return () => process.off("SIGUSR2", refresh)
+    return subscribeThemeChanges(refresh)
   },
 }
 
@@ -58,6 +62,72 @@ export async function discoverThemes(directories: string[]) {
     }
   }
   return result
+}
+
+const THEME_WATCH_DEBOUNCE_MS = 150
+
+export function subscribeThemeChanges(onChange: () => void, directories = themeDirectories()): () => void {
+  const baseWatchers = new Set<FSWatcher>()
+  const themesWatchers = new Map<string, FSWatcher>()
+
+  let timeout: ReturnType<typeof setTimeout> | undefined
+  const debounced = () => {
+    clearTimeout(timeout)
+    timeout = setTimeout(onChange, THEME_WATCH_DEBOUNCE_MS)
+  }
+
+  const watchThemes = (themesDir: string) => {
+    if (themesWatchers.has(themesDir)) return
+    const watcher = watchFile(themesDir, (_event, filename) => {
+      if (typeof filename !== "string" || filename.endsWith(".json")) debounced()
+    })
+    watcher.on("error", () => {
+      watcher.close()
+      themesWatchers.delete(themesDir)
+    })
+    themesWatchers.set(themesDir, watcher)
+  }
+
+  const watchDirectory = (baseDir: string) => {
+    const themesDir = path.join(baseDir, "themes")
+    const reconcile = () => {
+      if (existsSync(themesDir)) {
+        try {
+          watchThemes(themesDir)
+        } catch {
+          themesWatchers.delete(themesDir)
+        }
+        return
+      }
+      const watcher = themesWatchers.get(themesDir)
+      if (!watcher) return
+      watcher.close()
+      themesWatchers.delete(themesDir)
+    }
+    reconcile()
+    try {
+      const baseWatcher = watchFile(baseDir, (_event, filename) => {
+        if (filename !== "themes" && typeof filename === "string") return
+        reconcile()
+        debounced()
+      })
+      baseWatcher.on("error", () => {
+        baseWatcher.close()
+        baseWatchers.delete(baseWatcher)
+      })
+      baseWatchers.add(baseWatcher)
+    } catch {}
+  }
+
+  for (const directory of directories) watchDirectory(directory)
+
+  return () => {
+    clearTimeout(timeout)
+    for (const watcher of baseWatchers) watcher.close()
+    for (const watcher of themesWatchers.values()) watcher.close()
+    baseWatchers.clear()
+    themesWatchers.clear()
+  }
 }
 
 export {
